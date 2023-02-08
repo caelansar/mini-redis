@@ -25,6 +25,8 @@
 //!   intermediate representation between a "command" and the byte
 //!   representation.
 
+#![feature(type_alias_impl_trait)]
+
 pub mod blocking_client;
 pub mod client;
 

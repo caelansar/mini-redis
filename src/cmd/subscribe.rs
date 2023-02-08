@@ -2,7 +2,6 @@ use crate::cmd::{Parse, ParseError, Unknown};
 use crate::{Command, Connection, Db, Frame, Shutdown};
 
 use bytes::Bytes;
-use std::pin::Pin;
 use tokio::select;
 use tokio::sync::broadcast;
 use tokio_stream::{Stream, StreamExt, StreamMap};
@@ -30,7 +29,7 @@ pub struct Unsubscribe {
 /// `broadcast::Receiver`. We use `stream!` to create a `Stream` that consumes
 /// messages. Because `stream!` values cannot be named, we box the stream using
 /// a trait object.
-type Messages = Pin<Box<dyn Stream<Item = Bytes> + Send>>;
+type Messages = impl Stream<Item = Bytes> + Send + Unpin;
 
 impl Subscribe {
     /// Creates a new `Subscribe` command to listen on the specified channels.
